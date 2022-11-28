@@ -1,0 +1,33 @@
+/* GLOBAL STYLES */
+body {
+    background: white;
+}
+
+/* DEMO-SPECIFIC STYLES */
+.typewriter h1 {
+    color: white;
+    font-family: Tahoma;
+    font-size: 30px;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: .10em solid white; /* The typewriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .10em; /* Adjust as needed */
+    animation:
+            typing 0.5s steps(12, end),
+            blink-caret 1s step-end infinite;
+}
+
+/* The typing effect */
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: white }
+    from {height: 35px }
+
+}
