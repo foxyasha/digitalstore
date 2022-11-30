@@ -1,11 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -37,49 +29,219 @@
   }
 }
 
-body{
-  height: 2000px;
-}
 
 
-/***    Landing Page     ***/
-.main-title,
-.main-para {
-  color: #f1f1f1
-}
-
-.main-title {
-  padding-top: 10rem;
-  font-size: 5rem;
-  font-family: 'Fascinate', cursive;
-  text-transform: uppercase
-}
-
-.main-para {
-  font-size: 2.5rem;
-  text-Transform: capitalize
-}
-
-#reg_btn span {
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-#reg_btn span:after {
-  content: '\00bb';
+.bg-image::after {
+  content: "";
   position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  backdrop-filter: blur(5px); /* apply the blur */
+  pointer-events: none; /* make the overlay click-through */
 }
 
-#reg_btn:hover span {
-  padding-right: 25px;
+.bg-image{
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: url(../src/assets/images/bg1.jpg);
+  background-size: 130%;
+  backdrop-filter: blur(10px);
+
 }
 
-#reg_btn:hover span:after {
-  opacity: 1;
-  right: 0;
+.form-style{
+  border-radius: 20px;
 }
+
+
+.button-style{
+  background: none;
+
+  border: 2px solid #ffffff;
+  border-radius: 20px;
+  color: white;
+
+}
+.button-style:hover{
+  background: #333;
+  transition: all .5s
+
+}
+
+.button-style-without-border{
+  background: none;
+  border: none;
+  color: white;
+  padding-right: 13px;
+}
+
+
+/*** Login page ***/
+
+h2 {
+  font-weight: 300
+}
+
+form {
+  display: inline-block;
+  background: #f3f3f3;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  padding: 2rem;
+  margin: 2rem 0 1rem 0
+}
+
+form label {
+  float: left;
+  font-size: .9rem;
+  margin: 0;
+  padding: 0
+}
+
+.right-label {
+  float: right;
+  cursor: pointer
+}
+
+input {
+  width: 15rem;
+  padding: .3rem;
+  border-radius: 5px;
+  outline: none;
+  border: none
+}
+
+#sub_btn {
+  display: block;
+  width: 100%;
+  padding: .3rem;
+  border: none;
+  background: #222;
+  color: #fff;
+  border-radius: 8px;
+
+}
+
+#sub_btn:hover {
+  background: #333;
+  transition: all .5s
+}
+
+footer p {
+  margin: 0;
+  font-size: .9rem
+}
+
+.words-color{
+  color: white;
+}
+.words-color2{
+  color: black
+}
+.words-color2:hover{
+  color: black
+}
+
+.words-color:hover{
+  color: white;
+
+}
+
+.orspan{
+  color: #ffffff;
+  padding-right: 15px;
+}
+
+.center-blur{
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  content: "";
+  position: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+
+}
+
+
+/*** Error page ***/
+
+.btn-go-home {
+  position: relative;
+  z-index: 200;
+  margin: 15px auto;
+  width: 150px;
+  padding: 10px 15px;
+  border: 2px solid #ffffff;
+  background-color: transparent;
+  border-radius: 100px;
+  font-weight: 200;
+  color: white;
+  text-align: center;
+  letter-spacing: 2px;
+  font-size: 11px;
+
+  -webkit-transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
+  -ms-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+}
+
+.btn-go-home:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  transform: scale(1.10);
+  box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.1);
+}
+
+.error-image{
+  font-family: "Franklin Gothic Medium";
+  font-size: 270px;
+  color: white;
+  filter: brightness(90%);
+}
+
+/*** HOME PAGE ***/
+
+.main-description{
+  font-family: "Franklin Gothic Medium";
+  font-size: 30px;
+  color: white;
+  filter: brightness(90%);
+}
+
+.sub-description{
+  font-family: "Franklin Gothic Medium";
+  font-size: 20px;
+  color: white;
+  filter: brightness(90%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*** HELLO PAGE ***/
+
+body.hello-page {
+  background-color: #f6f9fc;
+
+}
+
+.page-bg{
+  width: 500px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  margin-left: -250px;
+}
+
+
+
+
+

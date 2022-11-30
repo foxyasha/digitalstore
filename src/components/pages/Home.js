@@ -1,30 +1,59 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
-import BackgroundImage from "../../assets/images/bg.jpg"
+import {BrowserRouter as Router, Link, Route, Routes} from "react-router-dom";
+import {Container, Nav, Navbar} from "react-bootstrap";
+import '../styles/Animation.css'
+import Particle from "../styles/Particle";
 
-export default class Home extends Component{
-    render() {
-        return (
-            <header style={HeaderStyle}>
-                <h1 className="main-title text-center">login / register page</h1>
-                <div className="buttons text-center">
-                    <Link to="/login">
-                        <button className="primary-button">log in</button>
-                    </Link>
-                    <Link to="/register">
-                        <button className="primary-button" id="reg_btn"><span>register </span></button>
-                    </Link>
+
+const Home = () => {
+    return (
+        <body>
+            <Navbar fixed="top" expand="md" variant="dark" >
+                <Container>
+                    <Navbar.Brand href="/" >
+                            <div className="typewriter-logo">
+                                <h1>PAYIT</h1>
+                            </div>
+                    </Navbar.Brand>
+                    <Nav>
+                        <header>
+                            <div>
+                                <Link to="/Login">
+                                    <button className="button-style-without-border">Sign in</button>
+                                </Link>
+                                <Link to="/Reg">
+                                    <button className="button-style"><span>Sign up</span></button>
+                                </Link>
+                            </div>
+                        </header>
+                    </Nav>
+                </Container>
+            </Navbar>
+            <div className="bg-image">
+                <div className="center-blur">
+                    <div className="central-body">
+                        <div className="HomeDesc">
+                            <h1 className={"main-description" }>Sell digital downloads, courses, coaching
+                                and more from one simple platform.</h1>
+                            <h2 className={"sub-description" }>We make it easy for you to sell anything online anywhere.</h2>
+                            <footer>
+                                <p className="words-color">Signup for free • No card required</p>
+                            </footer>
+                            <Link to="/Reg">
+                                <button className="btn-go-home" ><span>Sign up</span></button>
+                            </Link>
+                        </div>
+                    </div>
                 </div>
-            </header>
-        );
-    }
-}
+            </div>
+            <Particle/>
+        </body>
 
-const HeaderStyle = {
-    width: "100%",
-    height: "100vh",
-    background: `url(${BackgroundImage})`,
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover"
-}
+
+
+    );
+
+};
+
+export default Home;
+
