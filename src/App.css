@@ -48,11 +48,11 @@
   background: url(../src/assets/images/bg1.jpg);
   background-size: 130%;
   backdrop-filter: blur(10px);
-
 }
 
 .form-style{
   border-radius: 20px;
+  width: 306px;
 }
 
 
@@ -240,6 +240,8 @@ body.hello-page {
   left: 50%;
   margin-left: -250px;
 }
+
+
 
 
 

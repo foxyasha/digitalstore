@@ -29,7 +29,7 @@ function Particle() {
                     events: {
                         onClick: {
                             enable: false,
-                            mode: "remove",
+                            mode: "repulse",
                         },
                         onHover: {
                             enable: true,

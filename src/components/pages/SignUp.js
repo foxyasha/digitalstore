@@ -1,10 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import Header from "../header";
 import Particle from "../styles/Particle";
 import '../../App.css'
 
+
 const SignUp = () => {
+  const [value, setValue] = useState('')
   return(
 
   <>
@@ -17,15 +19,20 @@ const SignUp = () => {
           <form action="/home" className={"form-style"}>
             <p>
               <label>Username</label><br/>
-              <input type="text" name="first_name" required />
+              <input type="text" placeholder="Enter username..."  required />
             </p>
             <p>
+              <label>Store username</label><br/>
+              <input type="text" value={value} onChange={event => setValue(event.target.value)} maxLength="8" placeholder="Enter username..."  required />
+            </p>
+            <p><span>https://payit.com/<span></span>{value}</span></p>
+            <p>
               <label>Email address</label><br/>
-              <input type="email" name="email" required />
+              <input type="email" placeholder="Enter email address..."  required />
             </p>
             <p>
               <label>Password</label><br/>
-              <input type="password" name="password" requiredc />
+              <input type="password" placeholder="Enter password..." required />
             </p>
             <p>
               <button id="sub_btn" type="submit">Register</button>

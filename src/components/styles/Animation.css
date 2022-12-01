@@ -43,5 +43,4 @@ animation: slide 1s steps(30, end), scale 1s steps(60, end);
 @keyframes scale {
     from {transform: scale(90%)}
     to {transform: scale(100%)}
-
 }
