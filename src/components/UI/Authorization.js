@@ -1,4 +1,6 @@
-/***import React, {Component, useState} from 'react';
+import React, {Component, useState} from 'react';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import {auth} from './firebaseConfig';
 
 export function Authorization(){
 
@@ -9,6 +11,12 @@ export function Authorization(){
 
 
     const register = async () =>{
+        try{
+            const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+            console.log(user)
+        }   catch (error){
+            console.log(error.message);
+        }
 
     };
 
@@ -20,5 +28,3 @@ export function Authorization(){
 
     };
 }
-
-***/

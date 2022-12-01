@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Header from "../header";
 import Particle from "../styles/Particle";
 import '../../App.css'
-import { Authorization } from '../UI/Authorization';
 
 
 
@@ -18,14 +17,15 @@ const SignIn = () => {
                         <form action="/home" className={"form-style"} >
                             <p>
                                 <label>Email address/username</label><br/>
-                                <input type="text" placeholder="Enter email/username..."  required />
+                                <input type="text"
+                                 placeholder="Enter email/username..."  required />
                             </p>
                             <p >
                                 <label>Password</label>
                                 <br/>
                                 <input type="password" placeholder="Enter password..."  required />
                             </p>
-                            <p  >
+                            <p>
                                 <button id="sub_btn" type="submit">Login</button>
                             </p>
                         </form >

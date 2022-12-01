@@ -7,6 +7,7 @@ import '../../App.css'
 
 const SignUp = () => {
   const [value, setValue] = useState('')
+
   return(
 
   <>
@@ -19,7 +20,7 @@ const SignUp = () => {
           <form action="/home" className={"form-style"}>
             <p>
               <label>Username</label><br/>
-              <input type="text" placeholder="Enter username..."  required />
+              <input type="text" placeholder="Enter username..." required />
             </p>
             <p>
               <label>Store username</label><br/>
@@ -32,10 +33,10 @@ const SignUp = () => {
             </p>
             <p>
               <label>Password</label><br/>
-              <input type="password" placeholder="Enter password..." required />
+              <input type="password" placeholder="Enter password..."  required />
             </p>
             <p>
-              <button id="sub_btn" type="submit">Register</button>
+              <button id="sub_btn" type={"submit"}  >Register</button>
             </p>
           </form>
           <footer>
@@ -45,10 +46,7 @@ const SignUp = () => {
         </div>
       </div>
     </div>
-
-
   </>
-
 
   );
 };
