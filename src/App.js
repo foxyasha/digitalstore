@@ -17,6 +17,3 @@ function App() {
 
 export default App;
 
-/***<Header/>
- <div className="bg-image"/>
- <Particle/>***/
