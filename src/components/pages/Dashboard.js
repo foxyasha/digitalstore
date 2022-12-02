@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 
-class HelloPage extends Component {
+class Dashboard extends Component {
     render() {
         return (
             <body>
@@ -13,4 +13,4 @@ class HelloPage extends Component {
     }
 }
 
-export default HelloPage;
+export default Dashboard;
