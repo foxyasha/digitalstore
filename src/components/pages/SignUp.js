@@ -1,29 +1,39 @@
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import Header from "../header";
 import Particle from "../styles/Particle";
 import '../../App.css'
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, registerWithEmailAndPassword } from "../UI/firebaseConfig";
+import {  createUserWithEmailAndPassword  } from 'firebase/auth';
+import { auth } from '../UI/firebaseConfig';
 
 
-function SignUp() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [user, loading, error] = useAuthState(auth);
-  const navigate = useNavigate();
-  const register = () => {
-    if (!name) alert("Please enter name");
-    registerWithEmailAndPassword(name, email, password);
-  };
-  useEffect(() => {
-    if (loading) return;
-    if (user) navigate("/dashboard");
-  }, [user, loading]);
+const SignUp = () => {
   const [value, setValue] = useState('')
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('');
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+
+    await createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          navigate("/login")
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorCode, errorMessage);
+          // ..
+        });
 
 
+  }
 
   return(
 
@@ -37,7 +47,7 @@ function SignUp() {
           <form className={"form-style"}>
             <p>
               <label>Username</label><br/>
-              <input type="text" placeholder="Enter username..." value={name} onChange={(e)=>setName(e.target.value)} required />
+              <input type="text" placeholder="Enter username..."  required />
             </p>
             <p>
               <label>Store username</label><br/>
@@ -53,7 +63,7 @@ function SignUp() {
               <input type="password" placeholder="Enter password..." value={password} onChange={(e)=> setPassword(e.target.value)} required />
             </p>
             <p>
-              <button id="sub_btn" onClick={register}>Register</button>
+              <button id="sub_btn" onClick={onSubmit}>Register</button>
             </p>
           </form>
           <footer>

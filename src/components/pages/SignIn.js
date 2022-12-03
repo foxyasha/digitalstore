@@ -1,24 +1,35 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import Header from "../header";
 import Particle from "../styles/Particle";
 import '../../App.css'
-import { auth, logInWithEmailAndPassword } from "../UI/firebaseConfig";
-import { useAuthState } from "react-firebase-hooks/auth";
+import {  signInWithEmailAndPassword   } from 'firebase/auth';
+import { auth } from '../UI/firebaseConfig';
 
 
-function SignIn() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [user, loading, error] = useAuthState(auth);
+const SignIn = () => {
+
     const navigate = useNavigate();
-    useEffect(() => {
-        if (loading) {
-            // maybe trigger a loading screen
-            return;
-        }
-        if (user) navigate("/dashboard");
-    }, [user, loading]);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const onLogin = (e) => {
+        e.preventDefault();
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                navigate("/dashboard")
+                console.log(user);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode, errorMessage)
+            });
+
+    }
+
     return(
         <>
             <Header/>
@@ -31,17 +42,17 @@ function SignIn() {
                             <p>
                                 <label>Email address</label><br/>
                                 <input type="text"
-                                 placeholder="Enter email..." value={email} onChange={(e)=> setEmail(e.target.value)}
+                                 placeholder="Enter email..." onChange={(e)=> setEmail(e.target.value)}
                                        required />
                             </p>
                             <p >
                                 <label>Password</label>
                                 <br/>
-                                <input type="password" placeholder="Enter password..." value={password} onChange={(e)=> setPassword(e.target.value)}
+                                <input type="password" placeholder="Enter password..." onChange={(e)=> setPassword(e.target.value)}
                                        required />
                             </p>
                             <p>
-                                <button id="sub_btn" onClick={()=> logInWithEmailAndPassword(email, password)}>Login</button>
+                                <button id="sub_btn" onClick={onLogin}>Login</button>
                             </p>
                         </form >
                         <footer>
