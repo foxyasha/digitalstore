@@ -1,11 +1,22 @@
-import React, {Component} from "react";
-import {BrowserRouter as Router, Link, Route, Routes} from "react-router-dom";
+import React, {Component, useEffect} from "react";
+import {BrowserRouter as Router, Link, Route, Routes, useNavigate} from "react-router-dom";
 import {Container, Nav, Navbar} from "react-bootstrap";
 import '../styles/Animation.css'
 import Particle from "../styles/Particle";
+import {useAuthState} from "react-firebase-hooks/auth";
+import {auth} from "../UI/firebaseConfig";
 
 
 const Home = () => {
+
+    const [user, loading] = useAuthState(auth);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (loading) return;
+        if (user) navigate("/dashboard");
+    }, [user, loading]);
+
+
     return (
         <body>
             <Navbar fixed="top" expand="md" variant="dark" >

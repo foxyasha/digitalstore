@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import Header from "../header";
 import Particle from "../styles/Particle";
 import '../../App.css'
 import {  signInWithEmailAndPassword   } from 'firebase/auth';
 import { auth } from '../UI/firebaseConfig';
+import {useAuthState} from "react-firebase-hooks/auth";
 
 
 const SignIn = () => {
@@ -13,6 +14,12 @@ const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [user, loading] = useAuthState(auth);
+    useEffect(() => {
+        if (loading) return;
+        if (user) navigate("/dashboard");
+    }, [user, loading]);
+
     const onLogin = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
@@ -20,12 +27,28 @@ const SignIn = () => {
                 // Signed in
                 const user = userCredential.user;
                 navigate("/dashboard")
+
                 console.log(user);
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                console.log(errorCode, errorMessage)
+                if(errorCode == 'auth/invalid-email'){
+                    alert("Invalid email!")
+                }
+
+                if(errorCode == 'auth/wrong-password'){
+                    alert("Wrong password!")
+                }
+                function SignIn(){
+                    const [user] = useAuthState(auth);
+                    useEffect(() => {
+                        if (user) navigate("/dashboard");
+                    }, [user]);
+                };
+
+
+
             });
 
     }

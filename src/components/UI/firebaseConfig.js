@@ -19,12 +19,11 @@ export const auth = getAuth(app);
 export default app;
 
 const sendPasswordReset = async (email) => {
+    alert("Password reset link sent!");
     try {
         await sendPasswordResetEmail(auth, email);
-        alert("Password reset link sent!");
     } catch (err) {
         console.error(err);
-        alert(err.message);
     }
 };
 

@@ -1,10 +1,11 @@
-import React, { useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import Header from "../header";
 import Particle from "../styles/Particle";
 import '../../App.css'
 import {  createUserWithEmailAndPassword  } from 'firebase/auth';
 import { auth } from '../UI/firebaseConfig';
+import {useAuthState} from "react-firebase-hooks/auth";
 
 
 const SignUp = () => {
@@ -14,23 +15,39 @@ const SignUp = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('');
 
+  const [user, loading] = useAuthState(auth);
+  useEffect(() => {
+    if (loading) return;
+    if (user) navigate("/dashboard");
+  }, [user, loading]);
+
   const onSubmit = async (e) => {
     e.preventDefault()
-
     await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
+          alert("You are successfully signed up!");
           navigate("/login")
-          // ...
+
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          console.log(errorCode, errorMessage);
-          // ..
+          if(errorCode == 'auth/invalid-email'){
+            alert("Invalid email!")
+          }
+          if(errorCode == 'auth/weak-password'){
+            alert("Password should be at least 6 characters!")
+          }
+          if(errorCode == 'auth/email-already-exists'){
+            alert("This email already exists!")
+          }
+
+
+
         });
+
 
 
   }

@@ -4,9 +4,17 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Dashboard.css";
 import {  signOut } from "firebase/auth";
 import { auth } from '../UI/firebaseConfig';
+import Header from "../header";
+
+
 
 const Dashboard = () => {
     const navigate = useNavigate();
+    const [user, loading] = useAuthState(auth);
+    useEffect(() => {
+        if (loading) return;
+        if (!user) navigate("/");
+    }, [user, loading]);
 
     const handleLogout = () => {
         signOut(auth).then(() => {
@@ -16,18 +24,27 @@ const Dashboard = () => {
         }).catch((error) => {
             // An error happened.
         });
+
+
     }
     return (
-        <div className="dashboard">
-            <p>
-                Welcome Home
-            </p>
-            <div className="dashboard__container">
-                <button className="dashboard__btn" onClick={handleLogout}>
-                    Logout
-                </button>
+        <>
+            <Header/>
+            <div className="dashboard">
+
             </div>
-        </div>
+        </>
+
+
     );
 }
 export default Dashboard;
+
+/***<p>
+    Welcome Home
+</p>
+<div className="dashboard__container">
+    <button className="dashboard__btn" onClick={handleLogout}>
+        Logout
+    </button>
+ ***/
