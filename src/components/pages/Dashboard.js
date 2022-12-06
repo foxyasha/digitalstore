@@ -31,20 +31,13 @@ const Dashboard = () => {
         <>
             <Header/>
             <div className="dashboard">
-
+                <button className="dashboard__btn" onClick={handleLogout}>
+                    Logout
+                </button>
             </div>
         </>
-
 
     );
 }
 export default Dashboard;
 
-/***<p>
-    Welcome Home
-</p>
-<div className="dashboard__container">
-    <button className="dashboard__btn" onClick={handleLogout}>
-        Logout
-    </button>
- ***/
