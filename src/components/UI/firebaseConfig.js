@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import {createContext} from "react";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage"
 
 
 const firebaseConfig = {
@@ -17,16 +18,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export default app;
+export const db = getFirestore(app)
+export const storage = getStorage(app);
 
 const sendPasswordReset = async (email) => {
-    alert("Password reset link sent!");
     try {
+        alert("Password reset link sent!");
         await sendPasswordResetEmail(auth, email);
     } catch (err) {
         console.error(err);
     }
 };
 
+
 export {
-    sendPasswordReset
+    sendPasswordReset,
 };

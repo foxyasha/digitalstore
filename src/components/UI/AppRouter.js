@@ -4,9 +4,10 @@ import Home from "../pages/Home";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import MissingPage from "../pages/MissingPage";
-import Dashboard from "../pages/Dashboard";
+import Store from "../pages/Store";
 import Reset from "../pages/Reset";
-import Hello from "../pages/Hello";
+import Settings from "../pages/Settings";
+import AddProduct from "../pages/AddProduct"
 
 class AppRouter extends Component {
     render() {
@@ -16,8 +17,9 @@ class AppRouter extends Component {
                     <Route path="/login" element={<SignIn/>}/>
                     <Route path="/reg" element={<SignUp/>}/>
                     <Route path="/reset" element={<Reset/>}/>
-                    <Route path="/dashboard" element={<Dashboard/>}/>
-                    <Route path="/hello" element={<Hello/>}/>
+                    <Route path="/store" element={<Store/>}/>
+                    <Route path="/settings" element={<Settings/>}/>
+                    <Route path="/add" element={<AddProduct/>}/>
                     <Route path="/error" element={<MissingPage/>}/>
                     <Route path="*" element={<Navigate to="/error" replace/>}/>
                 </Routes>

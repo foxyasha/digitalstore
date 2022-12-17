@@ -17,7 +17,7 @@ const SignIn = () => {
     const [user, loading] = useAuthState(auth);
     useEffect(() => {
         if (loading) return;
-        if (user) navigate("/dashboard");
+        if (user) navigate("/store");
     }, [user, loading]);
 
     const onLogin = (e) => {
@@ -26,7 +26,7 @@ const SignIn = () => {
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
-                navigate("/dashboard")
+                navigate("/store")
 
                 console.log(user);
             })
@@ -43,7 +43,7 @@ const SignIn = () => {
                 function SignIn(){
                     const [user] = useAuthState(auth);
                     useEffect(() => {
-                        if (user) navigate("/dashboard");
+                        if (user) navigate("/store");
                     }, [user]);
                 };
 
