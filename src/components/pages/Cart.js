@@ -6,11 +6,11 @@ import {  signOut } from "firebase/auth";
 import {auth, storage, db, sendPasswordReset} from '../UI/firebaseConfig';
 import {Card, CardGroup, Container, Form, Image, Nav, Navbar, Spinner} from "react-bootstrap";
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage"
-import {addDoc, serverTimestamp, collection, doc, updateDoc, getDoc, onSnapshot} from "firebase/firestore"
+import {collection, doc, onSnapshot, deleteDoc, addDoc, serverTimestamp} from "firebase/firestore"
 import Particle from "../styles/Particle";
 import {GridColumn} from "semantic-ui-react";
 import button from "bootstrap/js/src/button";
-
+import ValidData from "../ValidData";
 
 
 
@@ -18,8 +18,9 @@ const Cart = () => {
 
     const navigate = useNavigate();
     const [user, loading] = useAuthState(auth);
+    const [mas] = useState([]);
     const [carts, setCarts] = useState([]);
-    const [loadings, setLoading] = useState(false);
+
     useEffect(() => {
         if (loading) return;
         if (!user) navigate("/");
@@ -41,6 +42,7 @@ const Cart = () => {
         navigate("/myproducts")
     }
 
+
     const handleLogout = () => {
         signOut(auth).then(() => {
             // Sign-out successful.
@@ -52,14 +54,13 @@ const Cart = () => {
     }
 
     useEffect(()=>{
-        setLoading(true);
-        const unsub = onSnapshot(collection(db,"cart"), (snapshot) =>{
+        const unsub = onSnapshot(collection(db,"carts"), (snapshot) =>{
             let list = [];
             snapshot.docs.forEach((doc) =>{
                 list.push({id: doc.id, ...doc.data()})
+                mas.push(doc.id);
             });
             setCarts(list);
-            setLoading(false);
         }, (error)=>{
             console.log(error);
         })
@@ -69,9 +70,16 @@ const Cart = () => {
     }, []);
 
 
+    const handleDeleteCart = async (index) =>{
+        if(window.confirm("Are you sure to delete this product?")){
+            try{
+                await deleteDoc(doc(db,"carts", mas[index]));
+                mas.splice(index, 1);
+            } catch(err){
 
-
-
+            }
+        }
+    }
 
 
     if(loading){
@@ -91,10 +99,10 @@ const Cart = () => {
             <div className="bg-settingsimage">
                 <Particle/>
                 <div className="settingsform">
-                    <form className="formsets">
-                        <h1> Your cart </h1>
+                    <div className="formsets">
+                        <h1 style={{color: 'white'}}> Your cart </h1>
                             <CardGroup>
-                                {carts && carts.map((item)=>(
+                                {carts && carts.map((item, index)=>(
                                     <div className="settingsCartForm">
                                         {user.uid === item.buyeruid ?
                                             <GridColumn>
@@ -113,15 +121,16 @@ const Cart = () => {
                                                         <br/>
                                                         <label>Seller: <i className="bold">{item.username}</i></label>
                                                         <br/>
-                                                        <button>Delete</button>
+                                                        <label>Qty: <i className="bold">{item.count}</i></label>
+                                                        <button onClick={()=> handleDeleteCart(index)}>Delete</button>
                                                     </Card.Header>
                                                 </Card>
                                             </GridColumn>
-                                            : ''}
+                                            : null}
                                     </div>
                                 ))}
                             </CardGroup>
-                    </form>
+                    </div>
                 </div>
                 <Navbar fixed="top" variant="dark" className="navtitlebutton">
                     <Container>

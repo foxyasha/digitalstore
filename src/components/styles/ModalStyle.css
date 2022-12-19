@@ -90,9 +90,24 @@ img {
 }
 
 .btnPrimary {
-    background-color: #ffffff;
-    color: white;
+    background-color: white;
+    color: black;
+    transition: background-color 1s;
 }
+.btnPrimary:hover{
+    background-color: #D4B0EFBA;
+}
+
+.btnDelete {
+    background-color: white;
+    color: black;
+    transition: background-color 1s;
+}
+.btnDelete:hover{
+    background-color: rgba(255, 0, 0, 0.53);
+}
+
+
 
 .btnOutline {
     /* background-color: #a76a99; */

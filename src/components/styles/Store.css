@@ -254,9 +254,18 @@ li {
 }
 
 
+.counterButton{
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 15px;
+    margin: 5px;
+    border: 1px solid black;
+    background-color: white;
+    transition: background-color .4s;
+}
 
+.counterButton:hover{
+    background-color: rgba(175, 174, 174, 0.62);
 
-
-
-
-
+}

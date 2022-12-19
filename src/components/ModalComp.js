@@ -8,25 +8,25 @@ import {addDoc, collection, serverTimestamp, setDoc, doc} from "firebase/firesto
 import ValidData from "./ValidData";
 
 
-const Modal =({open,close, title, img, price, description, useremail, userUid, handleDelete,username, id}) => {
+const Modal =({open,close, title, img, price, description, useremail, userUid, handleDelete, username, id}) => {
     const navigate = useNavigate();
     const [user, loading] = useAuthState(auth);
-    const buyeruid = user.uid ;
+    const [count, setCount] = useState(1)
+    const buyeruid = user.uid;
     if (!open) return null;
-    var amount = 0;
-    function plus(){
-        return <p>qty: {amount}</p>
-        console.log("+", amount)
+    function increment(){
+        setCount(count + 1)
     }
-    function minus(){
-
-        console.log("-", amount)
+    function decrement(){
+        if(count > 1){
+            setCount(count - 1)
+        }
     }
 
 
     const submitCart = async (e) => {
         e.preventDefault();
-        await addDoc(collection(db, "cart"), {
+        await addDoc(collection(db, "carts"), {
             title,
             description,
             price,
@@ -35,12 +35,11 @@ const Modal =({open,close, title, img, price, description, useremail, userUid, h
             img,
             userUid,
             buyeruid,
+            count,
             timestamp: serverTimestamp()
         })
         ValidData('Your product successfully added!', true)
     }
-
-
 
         return (
             <div className='overlay modalBack'>
@@ -56,9 +55,9 @@ const Modal =({open,close, title, img, price, description, useremail, userUid, h
                             <p>Price: {price} $</p>
                             <p>Seller contacts: {useremail} </p>
                             <div hidden={userUid == user.uid}>
-                                <p id="qty">qty: {amount}</p>
-                                <button onClick={plus}>+</button>
-                                <button style={{marginLeft:"20px"}} onClick={minus}>--</button>
+                                <button className="counterButton" onClick={decrement}>-</button>
+                                <label>qty: {count}</label>
+                                <button className="counterButton" onClick={increment}>+</button>
                             </div>
                         </div>
                         <div className='btnContainer'>
@@ -66,11 +65,10 @@ const Modal =({open,close, title, img, price, description, useremail, userUid, h
                                     onClick={() => navigate(`/update/${id}`)}>
                                 <span className='bold'>Update</span>
                             </button>
-                            <button className='btnOutline' hidden={userUid !== user.uid}
+                            <button className='btnDelete' hidden={userUid !== user.uid}
                                     onClick={() => handleDelete(id)}>
                                 <span className='bold'>Delete</span>
                             </button>
-
                             <button className='btnPrimary' hidden={userUid == user.uid} onClick={submitCart}>
                                 <span className='bold'>Add to cart</span>
                             </button>
@@ -80,6 +78,11 @@ const Modal =({open,close, title, img, price, description, useremail, userUid, h
             </div>
         );
     };
+
+
+
+
+
 
 export default Modal;
 

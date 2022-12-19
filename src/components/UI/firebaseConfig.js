@@ -2,9 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage"
-import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css"
-import ValidData from "../ValidData";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDyvjx-2nkhV0Zp0cmKaOIGaW-PdI4lfA0",
