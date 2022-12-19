@@ -6,7 +6,9 @@ import '../../App.css'
 import {  signInWithEmailAndPassword   } from 'firebase/auth';
 import { auth } from '../UI/firebaseConfig';
 import {useAuthState} from "react-firebase-hooks/auth";
-
+import Toastify from "toastify-js";
+import "../ValidData"
+import ValidData from "../ValidData";
 
 const SignIn = () => {
 
@@ -26,19 +28,14 @@ const SignIn = () => {
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
-                navigate("/store")
+                ValidData('You are successfully signed in!', true)
 
-                console.log(user);
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                if(errorCode == 'auth/invalid-email'){
-                    alert("Invalid email!")
-                }
-
-                if(errorCode == 'auth/wrong-password'){
-                    alert("Wrong password!")
+                if(!user || errorCode == 'auth/invalid-email'){
+                    ValidData('Incorrect email or password!', false)
                 }
                 function SignIn(){
                     const [user] = useAuthState(auth);

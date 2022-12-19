@@ -50,6 +50,25 @@
   backdrop-filter: blur(10px);
 }
 
+.bg-storeimage{
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  background: url(../src/assets/images/bg1.jpg);
+  background-size: auto;
+}
+
+.bg-settingsimage{
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: url(../src/assets/images/bg1.jpg);
+  background-size: auto;
+
+}
+
+
+
 .form-style{
   border-radius: 20px;
   width: 306px;
@@ -62,6 +81,7 @@
   border: 2px solid #ffffff;
   border-radius: 20px;
   color: white;
+  width: 70px;
 
 }
 .button-style:hover{

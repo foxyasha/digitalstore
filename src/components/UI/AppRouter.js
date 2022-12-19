@@ -8,6 +8,8 @@ import Store from "../pages/Store";
 import Reset from "../pages/Reset";
 import Settings from "../pages/Settings";
 import AddProduct from "../pages/AddProduct"
+import Cart from "../pages/Cart";
+import MyProducts from "../pages/MyProducts";
 
 class AppRouter extends Component {
     render() {
@@ -20,6 +22,9 @@ class AppRouter extends Component {
                     <Route path="/store" element={<Store/>}/>
                     <Route path="/settings" element={<Settings/>}/>
                     <Route path="/add" element={<AddProduct/>}/>
+                    <Route path="/cart" element={<Cart/>}/>
+                    <Route path="/myproducts" element={<MyProducts/>}/>
+                    <Route path="/update/:id" element={<AddProduct/>}/>
                     <Route path="/error" element={<MissingPage/>}/>
                     <Route path="*" element={<Navigate to="/error" replace/>}/>
                 </Routes>

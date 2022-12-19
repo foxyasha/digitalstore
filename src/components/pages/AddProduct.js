@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import "../styles/Store.css";
 import {  signOut } from "firebase/auth";
 import {auth, storage, db } from '../UI/firebaseConfig';
-import {Container, Form, Nav, Navbar} from "react-bootstrap";
+import {Container, Form, Nav, Navbar, Spinner} from "react-bootstrap";
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage"
-import {addDoc, serverTimestamp, collection} from "firebase/firestore"
+import {addDoc, serverTimestamp, collection, doc, updateDoc, getDoc} from "firebase/firestore"
+import Particle from "../styles/Particle";
+import "toastify-js/src/toastify.css"
+import ValidData from "../ValidData";
 
 
+const initialState = {
+    title: "",
+    description: "",
+    price: "",
+};
 
 const Store = () => {
 
@@ -29,6 +37,12 @@ const Store = () => {
     const addProducts = () =>{
         navigate("/add")
     }
+    const cart = () =>{
+        navigate("/cart")
+    }
+    const myproducts = () =>{
+        navigate("/myproducts")
+    }
 
     const handleLogout = () => {
         signOut(auth).then(() => {
@@ -41,15 +55,19 @@ const Store = () => {
     }
 
     const [img, setImg] = useState('');
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState('');
+    const [data, setData] = useState(initialState);
+    const {title, description, price} = data;
     const [file, setFile] = useState(null);
     const [progress, setProgress] = useState(null);
     const [isSubmit, setIsSubmit] = useState(false);
+    const userUid = user?.uid;
+    const useremail = user?.email;
+    const username = user?.displayName;
+    const { id } = useParams();
+
 
     useEffect(()=>{
-        const uploadFile =() =>{
+        const uploadFile = () =>{
             const name = new Date().getTime() + file.name;
             const storageRef = ref(storage, file.name);
             const uploadTask = uploadBytesResumable(storageRef, file);
@@ -66,7 +84,6 @@ const Store = () => {
                         break;
                     default:
                         break;
-
                 }
             }, (error) =>{
                 console.log(error)
@@ -82,36 +99,85 @@ const Store = () => {
     }, [file]);
 
 
+
+    useEffect(() =>{
+        id && getSingleProduct();
+    }, [id]);
+
+    const getSingleProduct = async () =>{
+        const docRef = doc(db, "products", id);
+        const snapshot = await getDoc(docRef);
+        if (snapshot.exists()){
+            setData(({...snapshot.data()}))
+        }
+    }
+
+    const handleClick = (e) =>{
+        setData({ ...data, [e.target.name]: e.target.value });
+    }
+
     const handleSubmit = async (e) =>{
         e.preventDefault();
         setIsSubmit(true);
-        await addDoc(collection(db, "products"), {
-            title,
-            description,
-            price,
-            img,
-            timestamp: serverTimestamp()
-        })
-        alert ("Your product successfully added!")
+        if(!id){
+            await addDoc(collection(db, "products"), {
+                title,
+                description,
+                price,
+                img,
+                userUid,
+                username,
+                useremail,
+                timestamp: serverTimestamp()
+            })
+            ValidData('Your product successfully added!', true)
+        }else{
+            try{
+                await updateDoc(doc(db,"products", id),{
+                    title,
+                    description,
+                    price,
+                    img
+                });
+                ValidData('Your product successfully updated!', true)
+            } catch (error){
+                console.log(error);
+            }
+        }
+
         navigate ("/store")
     }
 
+    if(loading){
+        return <Spinner style={{
+            marginLeft: "auto",
+            marginRight: "auto",
+            justifyContent:"center",
+            display:"flex",
+            marginTop:"300px"
+            }}/>
+    }
+
+
     return (
         <>
+            <div className="bg-settingsimage ">
+                <Particle/>
             <div className="settingsform">
+
                 <Form onSubmit={handleSubmit} >
-                    <h2>Add your products</h2>
+                    <h2>{id ? "Update your product" : "Add your product"}</h2>
                     <hr/>
                     <label htmlFor="product-name">Product title</label>
                     <br/>
                     <input type="text" className="form-control" required
-                    onChange={(e)=> setTitle(e.target.value)} value={title}
+                    onChange={handleClick} value={title} name="title"
                     />
                     <br/>
                     <label htmlFor="product-desc">Product description</label>
                     <br/>
                     <input type="text" className="form-control" required
-                    onChange={(e)=> setDescription(e.target.value)} value={description}
+                    onChange={handleClick} value={description} name="description"
                     />
                     <br/>
                     <label htmlFor="product-price">Product price</label>
@@ -119,7 +185,8 @@ const Store = () => {
                     <div className="currency-wrap">
                         <span className="currency-code">$</span>
                         <input type="number" className="form-control"
-                               onChange={(e)=> setPrice(e.target.value)} value={price}/>
+                               onChange={handleClick} value={price} name="price"
+                        />
                     </div>
 
                     <br/>
@@ -130,24 +197,26 @@ const Store = () => {
                     />
                     <br/>
                     <br/>
-                    <button className="btn btn-success btn-md mybtn" disabled={progress !== null && progress < 100} > Add</button>
+                    <button className="btn btn-success btn-md mybtn" disabled={progress !== null && progress < 100}  > Add</button>
                 </Form>
             </div>
-            <Navbar fixed="top" expand="md" bg="black" variant="dark">
+            <Navbar fixed="top" variant="dark" className="navtitlebutton">
                 <Container>
                     <Navbar.Brand href="/store">
                         <div className="typewriter-logo">
                             <h1>Payit</h1>
                         </div>
                     </Navbar.Brand>
-                    <Nav>
-                        <ul className="hList">
+                    <Nav className="navDropbutton">
+                        <ul >
                             <li>
                                 <a className="menu">
-                                    <h1 className="menu-title">Account</h1>
+                                    <span className="menu-title">Account</span>
                                     <ul className="menu-dropdown">
                                         <li onClick={storepage}>Store</li>
                                         <li onClick={addProducts}>Add product</li>
+                                        <li onClick={myproducts}>My products</li>
+                                        <li onClick={cart}>Cart</li>
                                         <li onClick={settings}>Settings</li>
                                         <li onClick={handleLogout}>Logout</li>
                                     </ul>
@@ -158,7 +227,7 @@ const Store = () => {
                 </Container>
             </Navbar>
 
-
+            </div>
 
         </>
     );

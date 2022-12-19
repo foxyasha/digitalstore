@@ -32,7 +32,6 @@ body{
 
 .settingsform{
     text-align: center;
-    display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 50px;
@@ -42,19 +41,64 @@ body{
     overflow: hidden;
 }
 
+.settingsCartForm{
+    width: 100%;
+}
+
+
+
+
+.myproductsheader{
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    position: center;
+    color: white;
+}
+
+
+.formsets{
+    width: auto;
+    height: auto;
+}
+
+
+
+form{
+    border-radius: 15px;
+}
+
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
 
+.top-left {
+    position: absolute;
+    top: 1px;
+    left: 5px;
+    width: 10%;
+}
 
+.btnSize{
+    scale: 80%;
+}
 
 
 .menu {
     display: block;
     position: relative;
     cursor: pointer;
+    text-decoration: none;
+}
+
+
+.navtitlebutton{
+    margin-right: 200px;
+}
+.navDropbutton{
+    margin-right: -200px;
 }
 
 .menu-title {
@@ -72,9 +116,11 @@ body{
     background: none;
     border: 2px solid #ffffff;
     border-radius: 20px;
-
+    text-decoration: none;
 
 }
+
+
 
 
 
@@ -83,7 +129,8 @@ body{
     min-width: 100%;
     padding: 15px 0;
     position: absolute;
-    background: #000000;
+    background: rgba(128, 128, 128, 0.57);
+    border-radius:10px ;
     font-size: 18px;
     color: #ffffff;
     z-index: 100;
@@ -94,12 +141,12 @@ body{
 
 .menu:not(:hover) > .menu-dropdown {
     padding: 0px 0;
-    background: #000000;
+    background: rgba(128, 128, 128, 0.57);
     z-index: 99;
 }
 
 .menu:not(:hover) > .menu-dropdown:after {
-    border-top-color: #000000;
+    border-top-color: rgba(128, 128, 128, 0.57);
 }
 
 .menu:not(:hover) > .menu-title:after {
@@ -174,6 +221,40 @@ li {
     left:4px;
     top:6.5px;
 }
+
+.HomeDesc{
+    animation: slide 1s steps(30, end), scale 1s steps(60, end);
+}
+
+
+.filter-buttonMyProducts{
+    background: none;
+    border: 2px solid black;
+    border-radius: 20px;
+    color: black;
+    width: 150px;
+
+}
+
+.filter-buttonMyProducts:focus{
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.filter-buttonAll{
+    background: none;
+    border: 2px solid black;
+    border-radius: 20px;
+    color: black;
+    width: 150px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+.filter-buttonAll:focus{
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+
+
 
 
 

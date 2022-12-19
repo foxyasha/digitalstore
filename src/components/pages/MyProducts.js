@@ -71,11 +71,11 @@ const Store =  () => {
 
 
 
-const handleClick = (item) =>{
+    const handleClick = (item) =>{
         setOpenModal(true)
         setProduct(item)
 
-}
+    }
 
     const handleDelete = async (id) =>{
         if(window.confirm("Are you sure to delete this product?")){
@@ -104,19 +104,19 @@ const handleClick = (item) =>{
 
     return (
         <>
-
             <div className="bg-storeimage" >
                 <Particle/>
-            <Container className="HomeDesc" style={{
-                height:"auto",
-                width:"auto",
-                marginTop:"100px",
-            }}>
-                <CardGroup>
+
+                <Container className="HomeDesc" style={{
+                    height:"auto",
+                    width:"auto",
+                    marginTop:"100px",
+                }}>
+                    <CardGroup>
                         {products && products.map((item)=>(
                             <div>
                                 <GridColumn key={item.id}>
-                                    <Card>
+                                    {item.userUid === user.uid ?<Card>
                                         <Image
                                             src={item.img.img}
                                             style={{
@@ -128,7 +128,6 @@ const handleClick = (item) =>{
 
                                             }}
                                         />
-                                        {item.userUid === user.uid ? <img height="auto" width="auto"  className="top-left" src="https://static.vecteezy.com/system/resources/previews/010/829/962/original/green-tick-checkbox-illustration-isolated-free-png.png"/> : ""}
                                         <Card.Header style={{marginTop: "10px"}}>
                                             <h5>Product: <i>{item.title}</i></h5>
                                             <label>Price: <i className="bold">{item.price} $</i></label>
@@ -141,47 +140,47 @@ const handleClick = (item) =>{
                                                 View
                                             </button>
                                         </Card.Header>
-                                    </Card>
+                                    </Card>: ''}
+
                                 </GridColumn>
                             </div>
 
                         ))}
-                </CardGroup>
-            </Container>
-
-            <Navbar fixed="top" variant="dark" className="navtitlebutton " >
-                <Container>
-                    <Navbar.Brand href="/store" >
-                        <div className="typewriter-logo">
-                            <h1 >Payit</h1>
-                        </div>
-                    </Navbar.Brand>
-                    <Nav className="navDropbutton">
-                        <ul >
-                            <li >
-                                <a className="menu">
-                                    <span className="menu-title">Account</span>
-                                    <ul className="menu-dropdown">
-                                        <li onClick={storepage}>Store</li>
-                                        <li onClick={addProducts}>Add product</li>
-                                        <li onClick={myproducts}>My products</li>
-                                        <li onClick={cart}>Cart</li>
-                                        <li onClick={settings}>Settings</li>
-                                        <li onClick={handleLogout}>Logout</li>
-                                    </ul>
-                                </a>
-                            </li>
-                        </ul>
-                    </Nav>
+                    </CardGroup>
                 </Container>
-                {(
-                    <Modal open={openModal} close={() => {
-                        setOpenModal(false)}} {...product} handleDelete= {handleDelete} />
-                )}
-            </Navbar>
+                <Navbar fixed="top" variant="dark" className="navtitlebutton " >
+                    <Container>
+                        <Navbar.Brand href="/store" >
+                            <div className="typewriter-logo">
+                                <h1 >Payit</h1>
+                            </div>
+                        </Navbar.Brand>
+                        <Nav className="navDropbutton">
+                            <ul >
+                                <li >
+                                    <a className="menu">
+                                        <span className="menu-title">Account</span>
+                                        <ul className="menu-dropdown">
+                                            <li onClick={storepage}>Store</li>
+                                            <li onClick={addProducts}>Add product</li>
+                                            <li onClick={myproducts}>My products</li>
+                                            <li onClick={cart}>Cart</li>
+                                            <li onClick={settings}>Settings</li>
+                                            <li onClick={handleLogout}>Logout</li>
+                                        </ul>
+                                    </a>
+                                </li>
+                            </ul>
+                        </Nav>
+                    </Container>
+                    {(
+                        <Modal open={openModal} close={() => {
+                            setOpenModal(false)}} {...product} handleDelete= {handleDelete} />
+                    )}
+                </Navbar>
 
 
-</div>
+            </div>
         </>
 
     );

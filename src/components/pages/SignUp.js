@@ -3,11 +3,13 @@ import {Link, useNavigate} from "react-router-dom";
 import Header from "../header";
 import Particle from "../styles/Particle";
 import '../../App.css'
-import {  createUserWithEmailAndPassword  } from 'firebase/auth';
+import {  createUserWithEmailAndPassword, updateProfile  } from 'firebase/auth';
 import { auth } from '../UI/firebaseConfig';
 import {useAuthState} from "react-firebase-hooks/auth";
-import {setDoc, doc, serverTimestamp} from 'firebase/firestore';
-import {db} from '../UI/firebaseConfig'
+import ValidData from "../ValidData";
+import toast from "bootstrap/js/src/toast";
+import button from "bootstrap/js/src/button";
+
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -15,41 +17,51 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
 
+
   const [user, loading] = useAuthState(auth);
   useEffect(() => {
     if (loading) return;
     if (user) navigate("/store");
   }, [user, loading]);
 
+
   const onSubmit = async (e) => {
     e.preventDefault()
     await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-          // Signed in
           const user = userCredential.user;
-          const formDataCopy = {email, username, password }
-          delete formDataCopy.password
-          formDataCopy.timestamp = serverTimestamp()
-          setDoc(doc(db, 'users', user.uid), formDataCopy)
-          alert("You are successfully signed up!");
+          updateProfile(user, {displayName:`${username}`});
+          ValidData('You are successfully signed up!', true);
           navigate("/login")
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
+          console.log(errorCode)
+          console.log(errorMessage)
           if(errorCode == 'auth/invalid-email'){
-            alert("Invalid email!")
+            ValidData('Invalid email!', false);
+          }
+          if(errorCode == 'auth/internal-error'){
+            ValidData('Fill all fields correctly!', false);
+          }
+          if(errorCode == 'auth/missing-email'){
+            ValidData('Fill email field!', false);
           }
           if(errorCode == 'auth/weak-password'){
-            alert("Password should be at least 6 characters!")
+            ValidData('Password should be at least 6 characters!', false);
           }
-          if(errorCode == 'auth/email-already-exists'){
-            alert("This email already exists!")
+          if(errorCode == 'auth/email-already-in-use'){
+            ValidData('This email already exists!', false);
           }
 
         });
 
   }
+
+
+
+
 
 
   return(
@@ -86,8 +98,8 @@ const SignUp = () => {
       </div>
     </div>
   </>
-
   );
 };
+
 
 export default SignUp;
